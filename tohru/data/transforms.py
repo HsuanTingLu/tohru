@@ -24,40 +24,31 @@ class Transform:
 class FixOverflow(Transform):
     """Transformer that fixes integer overflows in a series"""
 
-    def __new__(cls, series, **kwargs):
-        """
-        valid arguments formats:
-        1) int_type (an integer class)
-        2) max, min (two ints, with max>min)
-        3) min, max (two ints, with max>min)
-        """
+    def __init__(self,
+                 series,
+                 min_val: np.integer,
+                 max_val: np.integer,
+                 step_threshold=None):
 
         def is_int(x):
             return np.issubdtype(x, np.integer)
 
-        int_type = kwargs.get("int_type")
-        max_val = kwargs.get("max")
-        min_val = kwargs.get("min")
-
-        if len(kwargs) == 1 and is_int(int_type):
-            int_info = np.iinfo(int_type)
-            min_val = int_info.min
-            max_val = int_info.max
-        elif len(kwargs) == 2 and is_int(max_val) and is_int(min_val):
+        if is_int(max_val) and is_int(min_val):
             if max_val < min_val:
                 raise ValueError(
-                    f"invalid arguments for {cls.__name__!r}()"
-                    f" with min: '{min_val!r}', max: '{max_val!r}'")
+                    f"invalid arguments for {type(self).__name__!r}()"
+                    f" with min: '{min_val!r}'"
+                    f", max: '{max_val!r}',"
+                    "max should not be smaller than min")
         else:
-            raise ValueError(
-                f"invalid arguments for {cls.__name__!r}()"
-                f" with series: '{series!r}', keyword arguments: '{kwargs!r}'")
+            raise ValueError(f"invalid arguments for {type(self).__name__!r}()"
+                             f" with series: '{series!r}'"
+                             f", min: '{min_val!r}"
+                             f", max: '{max_val!r}'")
 
-        instance = super().__new__(cls)
-        return instance
-
-    def __init__(self):
-        pass
+        self.max = max_val
+        self.min = min_val
+        self.step_threshold = step_threshold
 
     def transform(self):
         pass
