@@ -33,6 +33,8 @@ setuptools.setup(
         "tests": [
             "pylint",
             "pytest",
+            "pytest-cov",
+            "pytest-xdist",
         ],
     },
     classifiers=[

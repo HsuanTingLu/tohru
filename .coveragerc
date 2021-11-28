@@ -1,0 +1,22 @@
+[run]
+branch = True
+concurrency =
+    thread
+    multiprocessing
+cover_pylib = False
+source =
+    tohru/
+omit =
+    tests/test_*.py
+    */site-packages/*
+
+[report]
+show_missing = True
+omit =
+    */site-packages/*
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self\.debug
+    raise NotImplementedError
+    if __name__ == .__main__.:
