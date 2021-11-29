@@ -13,13 +13,23 @@
 # limitations under the License.
 """Tests single and multiple log file inputs"""
 
-import pathlib
-
-import pytest
+import tohru.data.datasets
 
 
 class TestDataset:
 
-    def test_create_file(self, single_file_dataset_dir, multi_file_dataset_dir):
+    def test_single_file_fixture(self, single_file_dataset_dir):
+        """Tests if the single log file fixture is working."""
         assert len(list(single_file_dataset_dir.glob("single.csv"))) == 1
+
+    def test_multi_file_fixture(self, multi_file_dataset_dir):
+        """Tests if the partitioned log file fixture is working."""
         assert len(list(multi_file_dataset_dir.glob("multi_*.csv"))) > 1
+
+    def test_reading_single_file(self, single_file_dataset_dir):
+        """Test reading single log files and paritioned log files."""
+        tohru.data.datasets.DatasetFolder(single_file_dataset_dir)
+
+    def test_reading_multiple_files(self, multi_file_dataset_dir):
+        """Test reading single log files and paritioned log files."""
+        tohru.data.datasets.DatasetFolder(multi_file_dataset_dir)
