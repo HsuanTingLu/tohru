@@ -20,17 +20,25 @@ import numpy as np
 import pandas as pd
 
 
-def generate_test_data(*, overwrite=False, rows_per_file=700_000, partitions=4):
-    test_data_dir = pathlib.Path(__file__).parent
+def generate_test_data(partitions: int,
+                       data_dir: pathlib.Path = pathlib.Path(__file__).parent,
+                       *,
+                       overwrite: bool = False,
+                       rows_per_file: int = 700_000):
+    """Generates test data."""
 
-    test_data_names = [
-        "single",
-        *[f"partition_{i}" for i in range(1, partitions + 1)],
-    ]
+    if partitions == 1:
+        test_data_names = [
+            "single",
+        ]
+    else:
+        test_data_names = [
+            *[f"multi_{i}" for i in range(1, partitions + 1)],
+        ]
 
     rng = np.random.default_rng()
     for file_name in test_data_names:
-        test_data = test_data_dir.joinpath(f"{file_name}.csv")
+        test_data = data_dir.joinpath(f"{file_name}.csv")
 
         if overwrite or not test_data.is_file():
             idx = np.arange(rows_per_file, dtype=np.uint64)
@@ -63,7 +71,3 @@ def generate_test_data(*, overwrite=False, rows_per_file=700_000, partitions=4):
                 df.at[i, "Info"] = "Abracadabra!!"
 
             df.to_csv(test_data, index=False)
-
-
-if __name__ != "__main__":
-    generate_test_data(overwrite=False, rows_per_file=70_000, partitions=3)
