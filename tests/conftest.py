@@ -23,7 +23,8 @@ DATA_DIR = pathlib.Path(tests.data.__file__).parent
 
 
 @pytest.fixture(scope="package")
-def multi_file_dataset_dir(tmp_path_factory):
+def multi_file_dataset_dir(
+        tmp_path_factory: pytest.TempPathFactory) -> pathlib.Path:
     """Return a temporary directory path object
  pointing to the temporary directory storing multiple files."""
 
@@ -37,7 +38,8 @@ def multi_file_dataset_dir(tmp_path_factory):
 
 
 @pytest.fixture(scope="package")
-def single_file_dataset_dir(tmp_path_factory):
+def single_file_dataset_dir(
+        tmp_path_factory: pytest.TempPathFactory) -> pathlib.Path:
     """Return a temporary directory path object
  pointing to the temporary directory storing a single file."""
 

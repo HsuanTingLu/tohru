@@ -52,7 +52,7 @@ def generate_test_data(partitions: int,
             df = pd.DataFrame({
                 "No.": idx,
                 "Time": time_stamps,
-                "Ticks": np.multiply(time_stamps, 1000),
+                "Ticks": np.multiply(time_stamps, 1000).astype(np.uint64),
                 "Type": "LOGMSG",
                 "Length": 126,
                 "Info": "Wubba Lubba Dub Dub!!",
