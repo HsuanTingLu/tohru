@@ -26,10 +26,30 @@ class TestDataset:
         """Tests if the partitioned log file fixture is working."""
         assert len(list(multi_file_dataset_dir.glob("multi_*.csv"))) > 1
 
-    def test_reading_single_file(self, single_file_dataset_dir):
+    def test_read_single_file_without_cache(self, single_file_dataset_dir):
         """Test reading single log files and paritioned log files."""
-        tohru.data.datasets.DatasetFolder(single_file_dataset_dir)
+        dataset = tohru.data.datasets.DatasetFolder(
+            root_dir=single_file_dataset_dir,
+            use_cache=False,
+        )
 
-    def test_reading_multiple_files(self, multi_file_dataset_dir):
+    def test_read_multiple_files_without_cache(self, multi_file_dataset_dir):
         """Test reading single log files and paritioned log files."""
-        tohru.data.datasets.DatasetFolder(multi_file_dataset_dir)
+        dataset = tohru.data.datasets.DatasetFolder(
+            root_dir=multi_file_dataset_dir,
+            use_cache=False,
+        )
+
+    def test_read_single_file_with_cache(self, single_file_dataset_dir):
+        """Test reading single log files and paritioned log files."""
+        dataset = tohru.data.datasets.DatasetFolder(
+            root_dir=single_file_dataset_dir,
+            use_cache=True,
+        )
+
+    def test_read_multiple_files_with_cache(self, multi_file_dataset_dir):
+        """Test reading single log files and paritioned log files."""
+        dataset = tohru.data.datasets.DatasetFolder(
+            root_dir=multi_file_dataset_dir,
+            use_cache=True,
+        )
